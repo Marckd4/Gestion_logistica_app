@@ -1,0 +1,58 @@
+<h1> Logistica Bodega_Bsf</h1>
+
+
+<div class="table-scroll">
+    <table class="table">
+        <thead >
+            <tr>
+                <th>Categoria</th>
+                <th>Empresa</th>
+                <th>Ubicacion</th>
+                <th>Cod_Ean</th>
+                <th>Cod_Dun</th>
+                <th>Cod_Sistema</th>
+                <th>Descripcion</th>
+                <th>Unidad</th>
+                <th>Pack</th>
+                <th>FactorX</th>
+                <th>Cajas</th>
+                <th>Saldo</th>
+                <th>Stock_Fisico</th>
+                <th>Observacion</th>
+                <th>Fecha_Venc</th>
+                <th>Fecha_Imp</th>
+                <th>Contenedor</th>
+                <th>Fecha_Inv</th>
+                <th>Encargado</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for bsfs in bsfs %}
+            <tr>
+                <td>{{ bsfs.categoria }}</td>
+                <td>{{ bsfs.empresa }}</td>
+                <td>{{ bsfs.ubicacion }}</td>
+                <td>{{ bsfs.cod_ean }}</td>
+                <td>{{ bsfs.cod_dun }}</td> 
+                <td>{{ bsfs.cod_sistema }}</td>
+                <td>{{ bsfs.descripcion }}</td>
+                <td>{{ bsfs.unidad }}</td>
+                <td>{{ bsfs.pack }}</td>
+                <td>{{ bsfs.factorx }}</td>
+                <td>{{ bsfs.cajas }}</td>
+                <td>{{ bsfs.saldo }}</td>
+                <td>{{ bsfs.stock_fisico }}</td>
+                <td>{{ bsfs.observacion }}</td>
+                <td>{{ bsfs.fecha_venc }}</td>
+                <td>{{ bsfs.fecha_imp }}</td>
+                <td>{{ bsfs.contenedor }}</td>
+                <td>{{ bsfs.fecha_inv }}</td>
+                <td>{{ bsfs.encargado }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    

@@ -1,0 +1,16 @@
+pip install -r requirements.txt
+pip freeze > requirements.txt  
+
+python manage.py makemigrations
+python manage.py migrate
+
+
+python manage.py createsuperuser 
+
+
+pipenv install pylint-django # instalar depensencia 
+crear .pylintrc - load-plugins=pylint-django dentro de archivo
+
+
+dato de git 
+git config core.autocrlf true

@@ -1,0 +1,56 @@
+<h1>Logística Bodega Lingues</h1>
+
+<div class="table-scroll">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Categoria</th>
+        <th>Empresa</th>
+        <th>Ubicacion</th>
+        <th>Cod_Ean</th>
+        <th>Cod_Dun</th>
+        <th>Cod_Sistema</th>
+        <th>Descripcion</th>
+        <th>Unidad</th>
+        <th>Pack</th>
+        <th>FactorX</th>
+        <th>Cajas</th>
+        <th>Saldo</th>
+        <th>Stock_Fisico</th>
+        <th>Observacion</th>
+        <th>Fecha_Venc</th>
+        <th>Fecha_Imp</th>
+        <th>Contenedor</th>
+        <th>Fecha_Inv</th>
+        <th>Encargado</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for central in centrales %}
+      <tr>
+        <td>{{ central.categoria }}</td>
+        <td>{{ central.empresa }}</td>
+        <td>{{ central.ubicacion }}</td>
+        <td>{{ central.cod_ean }}</td>
+        <td>{{ central.cod_dun }}</td>
+        <td>{{ central.cod_sistema }}</td>
+        <td>{{ central.descripcion }}</td>
+        <td>{{ central.unidad }}</td>
+        <td>{{ central.pack }}</td>
+        <td>{{ central.factorx }}</td>
+        <td>{{ central.cajas }}</td>
+        <td>{{ central.saldo }}</td>
+        <td>{{ central.stock_fisico }}</td>
+        <td>{{ central.observacion }}</td>
+        <td>{{ central.fecha_venc }}</td>
+        <td>{{ central.fecha_imp }}</td>
+        <td>{{ central.contenedor }}</td>
+        <td>{{ central.fecha_inv }}</td>
+        <td>{{ central.encargado }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>

@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Bsf # para admin 
 
-# Register your models here.
+
+# registrar los modelo 
+
+admin.site.register(Bsf)

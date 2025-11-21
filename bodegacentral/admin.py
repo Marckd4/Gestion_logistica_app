@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Central # para admin
 
-# Register your models here.
+# registrar los modelo 
+
+admin.site.register(Central)
