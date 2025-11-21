@@ -4,5 +4,6 @@ from . import views
 #/bodegacentral/.....
 
 urlpatterns = [
-    path('', views.index,name='index')
+    path('', views.index,name='index'),
+    path('formulariocentral',views.formulario, name='formulariocentral'),
 ]

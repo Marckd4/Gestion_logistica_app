@@ -4,5 +4,6 @@ from . import views
 #/bodegabsf/.....
 
 urlpatterns = [
-    path('', views.data,name='data')
+    path('', views.data,name='data'),
+    path('formulario',views.formulario, name='formulario'),
 ]
