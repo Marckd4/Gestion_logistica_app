@@ -1,99 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Gestion Logistica</title>
+    <title>Gestión Logística</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
-    <!-- formato de tabla -->
+    <!-- ÍCONOS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-
-    .table-scroll {
-        height: 600px;          /* alto visible */
-        overflow-y: auto;       /* scroll vertical */
+    /* ===============================
+       PALETA AZUL METÁLICO
+       =============================== */
+    :root {
+        --azul-metal: #0a3d62;
+        --azul-metal-claro: #3c6382;
+        --azul-hover: #82ccdd;
+        --blanco: #ffffff;
     }
 
+    /* --------------------------------
+       SIDEBAR ESTILO GLASS + METAL
+    --------------------------------*/
+    #sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(12px);
+        background: rgba(10, 61, 98, 0.70);
+        border-right: 2px solid rgba(255,255,255,0.25);
+        padding-top: 20px;
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    /* Móvil: empieza oculto */
+    @media (max-width: 991px) {
+        #sidebar {
+            transform: translateX(-260px);
+        }
+        #sidebar.open {
+            transform: translateX(0);
+        }
+    }
+
+    /* LINKS DEL SIDEBAR */
+    #sidebar .nav-link {
+        color: var(--blanco);
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 12px;
+        margin: 6px 10px;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.25s ease;
+        background: rgba(255,255,255,0.05);
+    }
+
+    /* HOVER AZUL METÁLICO */
+    #sidebar .nav-link:hover {
+        background-color: var(--azul-hover);
+        color: var(--azul-metal) !important;
+        border-color: var(--azul-metal-claro);
+        transform: translateX(6px);
+        box-shadow: 0 0 8px rgba(255,255,255,0.4);
+    }
+
+    /* BOTÓN HAMBURGUESA */
+    #menuToggle {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2000;
+        border-radius: 8px;
+        border: 2px solid var(--azul-metal);
+        color: var(--azul-metal);
+        background: rgba(255,255,255,0.6);
+        font-weight: bold;
+        backdrop-filter: blur(4px);
+        transition: 0.3s;
+    }
+
+    #menuToggle:hover {
+        background: var(--azul-metal);
+        color: white;
+    }
+
+    /* CONTENT */
+    #content {
+        margin-left: 260px;
+        padding: 20px;
+        transition: margin-left 0.3s;
+    }
+
+    @media(max-width: 991px){
+        #content {
+            margin-left: 0;
+            margin-top: 60px; /* espacio para el botón */
+        }
+
+        /* Desplaza el botón cuando el sidebar está abierto */
+        #sidebar.open ~ #menuToggle {
+            left: 270px !important;
+        }
+    }
+
+    /* TABLA */
+    .table-scroll {
+        height: 600px;
+        overflow-y: auto;
+    }
     .table thead th {
         position: sticky;
         top: 0;
-        background: white;      /* fondo para que no se mezcle con las filas al hacer scroll */
+        background: #e8e8e8;
         z-index: 10;
+        font-weight: bold;
+        border-bottom: 2px solid var(--azul-metal);
     }
-
-    .table thead th {
-    background: #f8f8f8;
-    font-weight: bold;
-    }
-
     </style>
-
 
 </head>
 
 <body>
 
-      <!-- Navegador -->
+    <!-- SIDEBAR -->
+    <div id="sidebar" class="text-white">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'inicio'%}">Logistica_General </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-        
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Bodega Lingues 
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'index' %}">Inventario_Lingues </a></li>
-              <li><a class="dropdown-item" href="{% url 'formulariocentral' %}">Ingreso de Mercaderia</a></li>
-              <li><a class="dropdown-item" href="#">Exportar Excel</a></li>
-              
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Bodega BSF
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'data'%}">Inventario_BSF</a></li>
-              <li><a class="dropdown-item" href="{% url 'formulario' %}"> Ingreso de Mercaderia</a></li>
-              <li><a class="dropdown-item" href="#">Exportar Excel</a></li>
-              
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Reporte
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'resumen_unificado' %}">Resumen General</a></li>
-              
-            </ul>
-          </li>
-          
+        <h4 class="text-center mb-4">Logística</h4>
+
+        <ul class="nav flex-column">
+
+            <a class="nav-link active" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
+
+            <!-- LINGUES -->
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#linguesMenu">
+                    <i class="bi bi-box-seam"></i>
+                    Bodega Lingues
+                </a>
+                <div class="collapse" id="linguesMenu">
+                    <ul class="nav flex-column ms-4">
+                        <li><a class="nav-link" href="{% url 'index' %}">
+                            <i class="bi bi-clipboard-data"></i> Inventario
+                        </a></li>
+
+                        <li><a class="nav-link" href="{% url 'formulariocentral' %}">
+                            <i class="bi bi-plus-circle"></i> Ingreso
+                        </a></li>
+
+                        <li><a class="nav-link" href="#">
+                            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                        </a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- BSF -->
+            <li class="nav-item mt-2">
+                <a class="nav-link" data-bs-toggle="collapse" href="#bsfMenu">
+                    <i class="bi bi-buildings"></i>
+                    Bodega BSF
+                </a>
+                <div class="collapse" id="bsfMenu">
+                    <ul class="nav flex-column ms-4">
+                        <li><a class="nav-link" href="{% url 'data' %}">
+                            <i class="bi bi-clipboard-data"></i> Inventario
+                        </a></li>
+
+                        <li><a class="nav-link" href="{% url 'formulario' %}">
+                            <i class="bi bi-plus-circle"></i> Ingreso
+                        </a></li>
+
+                        <li><a class="nav-link" href="#">
+                            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                        </a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- REPORTES -->
+            <li class="nav-item mt-2">
+                <a class="nav-link" data-bs-toggle="collapse" href="#reporteMenu">
+                    <i class="bi bi-bar-chart"></i>
+                    Reportes
+                </a>
+                <div class="collapse" id="reporteMenu">
+                    <ul class="nav flex-column ms-4">
+                        <li><a class="nav-link" href="{% url 'resumen_unificado' %}">
+                            <i class="bi bi-graph-up"></i> Resumen General
+                        </a></li>
+                    </ul>
+                </div>
+            </li>
 
         </ul>
-      </div>
     </div>
-  </nav>
 
-  
-    {% block content %}
+    <!-- BOTÓN PARA ABRIR SIDEBAR EN MÓVIL -->
+    <button id="menuToggle" class="btn btn-outline-primary d-lg-none">
+        <i class="bi bi-list"></i>
+        Menú
+    </button>
 
+    <!-- CONTENIDO -->
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    
+    <script>
+        // Abrir/cerrar sidebar solo en móvil
+        const sidebar = document.getElementById("sidebar");
+        const toggle = document.getElementById("menuToggle");
+
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+        });
+    </script>
+
 </body>
 </html>
