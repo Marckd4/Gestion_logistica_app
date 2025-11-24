@@ -1,7 +1,3 @@
-from django.shortcuts import render
-
-def inicio (request):
-    return render( render,'inicio.html')
 
 
 # resumen data tablas 
@@ -12,6 +8,8 @@ from collections import defaultdict
 
 def inicio(request):
     return render(request, 'inicio.html')
+
+
 
 def resumen_unificado(request):
 
@@ -49,7 +47,10 @@ def resumen_unificado(request):
     # Convertir a lista final con diferencias
     resumen = []
     for data in resumen_dict.values():
-        data["diferencia_stock"] = data["stock_bsf"] - data["stock_central"]
+        data["total_cajas"] = data["cajas_bsf"] + data["cajas_central"]
         resumen.append(data)
 
     return render(request, "resumen_unificado.html", {"resumen": resumen})
+
+
+
