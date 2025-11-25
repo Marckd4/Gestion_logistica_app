@@ -9,25 +9,134 @@
     <form novalidate action="{% url 'formulario' %}" method="post" class="p-4 bg-light shadow rounded">
         {% csrf_token %}
 
+        {% if mensaje %}
+        <div class="alert alert-success text-center">{{ mensaje }}</div>
+        {% endif %}
+
+        <!-- CAMPOS AUTOCOMPLETADOS -->
+        <div class="mb-3 position-relative">
+            <label class="form-label fw-semibold">Código DUN</label>
+            <input type="text" id="id_cod_dun" name="cod_dun" class="form-control" placeholder="Ingrese DUN" autocomplete="off">
+            <div id="autocomplete-list" class="list-group position-absolute w-100" style="z-index: 1000;"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Código EAN</label>
+            <input type="text" id="id_cod_ean_display" class="form-control bg-light" readonly>
+            <input type="hidden" id="id_cod_ean" name="cod_ean">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Código Sistema</label>
+            <input type="text" id="id_cod_sistema_display" class="form-control bg-light" readonly>
+            <input type="hidden" id="id_cod_sistema" name="cod_sistema">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Descripción</label>
+            <input type="text" id="id_descripcion_display" class="form-control bg-light" readonly>
+            <input type="hidden" id="id_descripcion" name="descripcion">
+        </div>
+
+        <!-- CAMPOS DEL FORM DJANGO -->
         {% for field in form %}
+            {% if field.name not in 'cod_dun cod_ean cod_sistema descripcion' %}
             <div class="mb-3">
-                <label for="{{ field.id_for_label }}" class="form-label">
-                    {{ field.label }}
-                </label>
-
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                 {{ field }}
-
                 {% if field.errors %}
-                    <div class="text-danger small">
-                        {{ field.errors }}
-                    </div>
+                    <div class="text-danger small">{{ field.errors }}</div>
                 {% endif %}
             </div>
+            {% endif %}
         {% endfor %}
 
         <button type="submit" class="btn btn-primary w-100">Enviar</button>
     </form>
 
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const codDunInput = document.getElementById("id_cod_dun");
+    const codEanInput = document.getElementById("id_cod_ean");
+    const codEanDisplay = document.getElementById("id_cod_ean_display");
+    const codSistemaInput = document.getElementById("id_cod_sistema");
+    const codSistemaDisplay = document.getElementById("id_cod_sistema_display");
+    const descripcionInput = document.getElementById("id_descripcion");
+    const descripcionDisplay = document.getElementById("id_descripcion_display");
+    const autocompleteList = document.getElementById("autocomplete-list");
+
+    const limpiarCampos = () => {
+        codEanInput.value = codEanDisplay.value = '';
+        codSistemaInput.value = codSistemaDisplay.value = '';
+        descripcionInput.value = descripcionDisplay.value = '';
+        autocompleteList.innerHTML = '';
+    };
+
+    const asignarCampos = (p) => {
+        codEanInput.value = codEanDisplay.value = p.cod_ean || '';
+        codSistemaInput.value = codSistemaDisplay.value = p.cod_sistema || '';
+        descripcionInput.value = descripcionDisplay.value = p.descripcion || '';
+    };
+
+    const mostrarOpciones = (productos) => {
+        autocompleteList.innerHTML = '';
+        productos.forEach(p => {
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'list-group-item list-group-item-action';
+            item.textContent = `${p.cod_dun} — ${p.descripcion} (Sistema: ${p.cod_sistema})`;
+            item.addEventListener('click', () => {
+                asignarCampos(p);
+                autocompleteList.innerHTML = '';
+            });
+            autocompleteList.appendChild(item);
+        });
+    };
+
+    codDunInput.addEventListener('input', () => {
+        const codDun = codDunInput.value.trim();
+        if (!codDun) { limpiarCampos(); return; }
+
+        fetch("{% url 'buscar_producto' %}?cod_dun=" + codDun)
+            .then(res => res.json())
+            .then(data => {
+                let resultados = data.resultados || [];
+
+                // eliminar duplicados
+                const productosUnicos = [];
+                const codigosUnicos = new Set();
+                resultados.forEach(r => {
+                    const clave = r.cod_sistema || r.cod_ean;
+                    if (!codigosUnicos.has(clave)) {
+                        codigosUnicos.add(clave);
+                        productosUnicos.push(r);
+                    }
+                });
+
+                if (productosUnicos.length === 1) {
+                    // producto existente, autoasignar campos
+                    asignarCampos(productosUnicos[0]);
+                } else if (productosUnicos.length > 1) {
+                    // mostrar lista de opciones
+                    mostrarOpciones(productosUnicos);
+                } else {
+                    // cod_dun nuevo, permitir ingreso manual
+                    limpiarCampos(); // limpia campos auxiliares pero deja cod_dun escrito
+                }
+            })
+            .catch(err => console.error('Error al buscar producto:', err));
+    });
+
+    document.addEventListener('click', e => {
+        if (!codDunInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+            autocompleteList.innerHTML = '';
+        }
+    });
+});
+
+
+</script>
+
 
 {% endblock %}

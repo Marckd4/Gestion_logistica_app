@@ -115,3 +115,45 @@ def eliminar_bsf(request, id):
         return redirect('data')   # ← Ajusta al nombre de tu vista principal
 
     return render(request, 'eliminar_bsf.html', {'bsf': bsf})
+
+
+
+# autocompletar del dun en formulario 
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Bsf
+from .forms import BsfForm
+
+def formulario(request, id=None):
+    mensaje = ""
+    if id:  # modo edición
+        instancia = Bsf.objects.get(id=id)
+    else:
+        instancia = None
+
+    if request.method == "POST":
+        form = BsfForm(request.POST, instance=instancia)
+        if form.is_valid():
+            form.save()
+            mensaje = "✅ Producto guardado correctamente."
+    else:
+        form = BsfForm(instance=instancia)
+
+    return render(request, 'bsf_form.html', {"form": form, "mensaje": mensaje})
+
+def buscar_producto(request):
+    cod_dun = request.GET.get('cod_dun', '').strip()
+    resultados = []
+
+    if cod_dun:
+        productos = Bsf.objects.filter(cod_dun__icontains=cod_dun)[:10]  # máximo 10 coincidencias
+        for p in productos:
+            resultados.append({
+                "cod_dun": p.cod_dun,
+                "cod_ean": p.cod_ean,
+                "cod_sistema": p.cod_sistema,
+                "descripcion": p.descripcion,
+            })
+
+    return JsonResponse({"resultados": resultados})
