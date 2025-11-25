@@ -14,3 +14,7 @@ crear .pylintrc - load-plugins=pylint-django dentro de archivo
 
 dato de git 
 git config core.autocrlf true
+
+
+
+ pip install openpyxl

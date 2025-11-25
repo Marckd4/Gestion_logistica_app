@@ -22,3 +22,63 @@ def formulario(request):
         
         
     return render( request, 'bsf_form.html',{'form': form})
+
+
+
+# area de exportar excel 
+import openpyxl
+from openpyxl.styles import Font
+from django.http import HttpResponse
+from .models import Bsf
+
+def limpiar(valor):
+    if valor is None:
+        return ""
+    return str(valor)
+
+def exportar_excel(request):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Inventario"
+
+    columnas = [
+        "Categoria", "Empresa", "Ubicacion", "Cod_Ean", "Cod_Dun", "Cod_Sistema",
+        "Descripcion", "Unidad", "Pack", "FactorX", "Cajas", "Saldo",
+        "Stock_Fisico", "Observacion", "Fecha_Venc", "Fecha_Imp",
+        "Fecha_Inv", "Encargado"
+    ]
+
+    # Encabezados
+    for col_num, titulo in enumerate(columnas, 1):
+        cell = ws.cell(row=1, column=col_num, value=titulo)
+        cell.font = Font(bold=True)
+
+    data = Bsf.objects.all()
+
+    for row_num, item in enumerate(data, 2):
+        ws.cell(row=row_num, column=1, value=limpiar(item.categoria))
+        ws.cell(row=row_num, column=2, value=limpiar(item.empresa))
+        ws.cell(row=row_num, column=3, value=limpiar(item.ubicacion))
+        ws.cell(row=row_num, column=4, value=limpiar(item.cod_ean))
+        ws.cell(row=row_num, column=5, value=limpiar(item.cod_dun))
+        ws.cell(row=row_num, column=6, value=limpiar(item.cod_sistema))
+        ws.cell(row=row_num, column=7, value=limpiar(item.descripcion))
+        ws.cell(row=row_num, column=8, value=limpiar(item.unidad))
+        ws.cell(row=row_num, column=9, value=limpiar(item.pack))
+        ws.cell(row=row_num, column=10, value=limpiar(item.factorx))
+        ws.cell(row=row_num, column=11, value=limpiar(item.cajas))
+        ws.cell(row=row_num, column=12, value=limpiar(item.saldo))
+        ws.cell(row=row_num, column=13, value=limpiar(item.stock_fisico))
+        ws.cell(row=row_num, column=14, value=limpiar(item.observacion))
+        ws.cell(row=row_num, column=15, value=limpiar(item.fecha_venc))
+        ws.cell(row=row_num, column=16, value=limpiar(item.fecha_imp))
+        ws.cell(row=row_num, column=17, value=limpiar(item.fecha_inv))
+        ws.cell(row=row_num, column=18, value=limpiar(item.encargado))
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = 'attachment; filename=\"inventario_bodegaBSF.xlsx\"'
+
+    wb.save(response)
+    return response
