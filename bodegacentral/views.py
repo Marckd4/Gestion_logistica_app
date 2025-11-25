@@ -117,3 +117,5 @@ def eliminar_central(request, id):
         return redirect('index')   # ← ajusta al nombre real de tu URL
 
     return render(request, 'eliminar_central.html', {'central': central})
+
+
