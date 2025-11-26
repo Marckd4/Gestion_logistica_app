@@ -119,3 +119,47 @@ def eliminar_central(request, id):
     return render(request, 'eliminar_central.html', {'central': central})
 
 
+
+
+# --- AUTOCOMPLETADO COD DUN ---
+
+from django.http import JsonResponse
+from django.shortcuts import render
+from .models import Central
+from .forms import CentralForm
+
+
+def formulario_central(request, id=None):
+    mensaje = ""
+    if id:  # modo edición
+        instancia = Central.objects.get(id=id)
+    else:
+        instancia = None
+
+    if request.method == "POST":
+        form = CentralForm(request.POST, instance=instancia)
+        if form.is_valid():
+            form.save()
+            mensaje = "✅ Producto guardado correctamente."
+    else:
+        form = CentralForm(instance=instancia)
+
+    return render(request, 'central_form.html', {"form": form, "mensaje": mensaje})
+
+def buscar_producto(request):
+    cod_dun = request.GET.get('cod_dun', '').strip()
+    resultados = []
+
+    if cod_dun:
+        productos = Central.objects.filter(cod_dun__icontains=cod_dun)[:10]  # máximo 10 coincidencias
+        for p in productos:
+            resultados.append({
+                "cod_dun": p.cod_dun,
+                "cod_ean": p.cod_ean,
+                "cod_sistema": p.cod_sistema,
+                "descripcion": p.descripcion,
+            })
+
+    return JsonResponse({"resultados": resultados})
+
+
