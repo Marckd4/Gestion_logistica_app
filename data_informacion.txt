@@ -24,3 +24,6 @@ git config core.autocrlf true
 django-admin startproject 
 cd 
 python manage.py startapp 
+
+
+
