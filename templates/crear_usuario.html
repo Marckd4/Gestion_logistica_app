@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5" style="max-width: 500px;">
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h3 class="text-center mb-4">Crear Usuario</h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre de usuario</label>
+                    <input type="text" name="username" class="form-control" placeholder="Ingrese el usuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" name="password" class="form-control" placeholder="Ingrese la contraseña" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Crear Usuario
+                </button>
+            </form>
+
+            {% if messages %}
+                <div class="mt-4">
+                    {% for m in messages %}
+                        <div class="alert alert-info">
+                            {{ m }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

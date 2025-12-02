@@ -138,3 +138,59 @@ def exportar_resumen_excel(request):
     response["Content-Disposition"] = 'attachment; filename="resumen_unificado.xlsx"'
     wb.save(response)
     return response
+
+
+# usuario
+
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def crear_usuario(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "El usuario ya existe")
+            return redirect("crear_usuario")
+
+        # Crear usuario con todos los permisos
+        User.objects.create_superuser(username=username, password=password)
+
+        messages.success(request, "Usuario administrador creado correctamente")
+        return redirect("crear_usuario")
+
+    return render(request, "crear_usuario.html")
+
+# dashboard
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def dashboard(request):
+    return render(request, "dashboard.html")
+
+
+
+# login usuario
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def login_usuario(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('inicio')  # Ajusta si quieres otra página de inicio
+        else:
+            messages.error(request, "Usuario o contraseña incorrectos")
+
+    return render(request, "login.html")

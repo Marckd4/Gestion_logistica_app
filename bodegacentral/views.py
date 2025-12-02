@@ -140,6 +140,7 @@ def formulario_central(request, id=None):
         form = CentralForm(request.POST, instance=instancia)
         if form.is_valid():
             form.save()
+            return redirect('/bodegacentral')
             mensaje = "✅ Producto guardado correctamente."
     else:
         form = CentralForm(instance=instancia)

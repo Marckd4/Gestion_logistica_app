@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresar Usuario</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a3d62, #3c6382);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .login-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 30px;
+            width: 350px;
+            border: 1px solid rgba(255,255,255,0.30);
+        }
+        .login-card input {
+            border-radius: 10px;
+        }
+        .login-card button {
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-card shadow-lg">
+
+    <h3 class="text-center mb-3">Iniciar Sesión</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-light w-100 mt-3">
+            Ingresar
+        </button>
+    </form>
+
+    <!-- 🔥 Botón agregado sin modificar el resto -->
+    <div class="text-center mt-3">
+        <a href="{% url 'crear_usuario' %}" class="btn btn-outline-light w-100">
+            Crear Usuario
+        </a>
+    </div>
+
+    {% if messages %}
+        <div class="alert alert-danger mt-3">
+            {% for m in messages %}
+                {{ m }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+

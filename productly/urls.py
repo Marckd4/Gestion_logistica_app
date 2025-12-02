@@ -14,9 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -26,6 +28,11 @@ urlpatterns = [
     path('bodegabsf/', include('bodegabsf.urls')),
     path('resumen/', views.resumen_unificado, name='resumen_unificado'), # resumen de ambas bodegas
     path("exportar-resumen-excel/", views.exportar_resumen_excel, name="exportar_resumen_excel"), # exportar excel resumen 
-    path('usuario/', include('usuario.urls')),
+    path("crear-usuario/", views.crear_usuario, name="crear_usuario"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/login/'), name='logout'),
+    path("login/", views.login_usuario, name="login"),
+    
+   
    
 ]

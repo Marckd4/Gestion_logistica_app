@@ -37,6 +37,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,9 +56,8 @@ INSTALLED_APPS = [
     'bodegabsf.apps.BodegabsfConfig', # app bodegabsf
     'bodegacentral.apps.BodegacentralConfig', # app bodegacentral
     'django.forms',
-    'usuario.apps.UsuarioConfig',
-   
-   
+    
+    
 ]
 
     

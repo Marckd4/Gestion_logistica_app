@@ -115,91 +115,108 @@
 <body>
 
     <!-- SIDEBAR -->
-    <div id="sidebar" class="text-white">
+<div id="sidebar" class="text-white">
 
-        <h4 class="text-center mb-4">Logística</h4>
+    <h4 class="text-center mb-4">Logística</h4>
 
-        <ul class="nav flex-column">
+    <ul class="nav flex-column">
 
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'inicio' %}">
-                    <i class="bi bi-house-door"></i> Inicio
-                </a>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'inicio' %}">
+                <i class="bi bi-house-door"></i> Inicio
+            </a>
+        </li>
 
-            <!-- LINGUES -->
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#linguesMenu" aria-expanded="false" role="button">
-                    <i class="bi bi-box-seam"></i> Bodega Lingues
-                </a>
-                <div class="collapse" id="linguesMenu">
-                    <ul class="nav flex-column ms-4">
-                        <li><a class="nav-link" href="{% url 'index' %}">
-                            <i class="bi bi-clipboard-data"></i> Inventario
-                        </a></li>
-                        <li><a class="nav-link" href="{% url 'formulariocentral' %}">
-                            <i class="bi bi-plus-circle"></i> Ingreso
-                        </a></li>
-                        <li><a class="nav-link" href="{% url 'exportar_excel_productos' %}">
-                            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
-                        </a></li>
-                    </ul>
-                </div>
-            </li>
+        <!-- LINGUES -->
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#linguesMenu">
+                <i class="bi bi-box-seam"></i> Bodega Lingues
+            </a>
+            <div class="collapse" id="linguesMenu">
+                <ul class="nav flex-column ms-4">
+                    <li><a class="nav-link" href="{% url 'index' %}">
+                        <i class="bi bi-clipboard-data"></i> Inventario
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'formulariocentral' %}">
+                        <i class="bi bi-plus-circle"></i> Ingreso
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'exportar_excel_productos' %}">
+                        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                    </a></li>
+                </ul>
+            </div>
+        </li>
 
-            <!-- BSF -->
-            <li class="nav-item mt-2">
-                <a class="nav-link" data-bs-toggle="collapse" href="#bsfMenu" aria-expanded="false" role="button">
-                    <i class="bi bi-buildings"></i> Bodega BSF
-                </a>
-                <div class="collapse" id="bsfMenu">
-                    <ul class="nav flex-column ms-4">
-                        <li><a class="nav-link" href="{% url 'data' %}">
-                            <i class="bi bi-clipboard-data"></i> Inventario
-                        </a></li>
-                        <li><a class="nav-link" href="{% url 'formulario' %}">
-                            <i class="bi bi-plus-circle"></i> Ingreso
-                        </a></li>
-                        <li><a class="nav-link" href="{% url 'exportar_excel' %}">
-                            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
-                        </a></li>
-                    </ul>
-                </div>
-            </li>
+        <!-- BSF -->
+        <li class="nav-item mt-2">
+            <a class="nav-link" data-bs-toggle="collapse" href="#bsfMenu">
+                <i class="bi bi-buildings"></i> Bodega BSF
+            </a>
+            <div class="collapse" id="bsfMenu">
+                <ul class="nav flex-column ms-4">
+                    <li><a class="nav-link" href="{% url 'data' %}">
+                        <i class="bi bi-clipboard-data"></i> Inventario
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'formulario' %}">
+                        <i class="bi bi-plus-circle"></i> Ingreso
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'exportar_excel' %}">
+                        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                    </a></li>
+                </ul>
+            </div>
+        </li>
 
-            <!-- REPORTES -->
-            <li class="nav-item mt-2">
-                <a class="nav-link" data-bs-toggle="collapse" href="#reporteMenuGeneral" aria-expanded="false" role="button">
-                    <i class="bi bi-bar-chart"></i> Reportes
-                </a>
-                <div class="collapse" id="reporteMenuGeneral">
-                    <ul class="nav flex-column ms-4">
-                        <li><a class="nav-link" href="{% url 'resumen_unificado' %}">
-                            <i class="bi bi-graph-up"></i> Resumen General
-                        </a></li>
-                        <li><a class="nav-link" href="{% url 'exportar_resumen_excel' %}">
-                            <i class="bi bi-file-earmark-excel"></i> Exportar Resumen General
-                        </a></li>
-                    </ul>
-                </div>
-            </li>
+        <!-- REPORTES -->
+        <li class="nav-item mt-2">
+            <a class="nav-link" data-bs-toggle="collapse" href="#reporteMenuGeneral">
+                <i class="bi bi-bar-chart"></i> Reportes
+            </a>
+            <div class="collapse" id="reporteMenuGeneral">
+                <ul class="nav flex-column ms-4">
+                    <li><a class="nav-link" href="{% url 'resumen_unificado' %}">
+                        <i class="bi bi-graph-up"></i> Resumen General
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'exportar_resumen_excel' %}">
+                        <i class="bi bi-file-earmark-excel"></i> Exportar Resumen General
+                    </a></li>
+                </ul>
+            </div>
+        </li>
 
-            <!-- ADMIN -->
-            <li class="nav-item mt-2">
-                <a class="nav-link" data-bs-toggle="collapse" href="#adminMenu" aria-expanded="false" role="button">
-                    <i class="bi bi-gear"></i> Administración
-                </a>
-                <div class="collapse" id="adminMenu">
-                    <ul class="nav flex-column ms-4">
-                        <li><a class="nav-link" href="{% url 'usuario' %}">
-                            <i class="bi bi-person-plus"></i> Crear Usuario
-                        </a></li>
-                    </ul>
-                </div>
-            </li>
+        <!-- ADMIN -->
+        <li class="nav-item mt-2">
+            <a class="nav-link" data-bs-toggle="collapse" href="#adminMenu">
+                <i class="bi bi-gear"></i> Administración
+            </a>
+            <div class="collapse" id="adminMenu">
+                <ul class="nav flex-column ms-4">
+                    <li><a class="nav-link" href="{% url 'crear_usuario' %}">
+                        <i class="bi bi-person-plus"></i> Crear Usuario
+                    </a></li>
+                    <li><a class="nav-link" href="{% url 'dashboard' %}">
+                        <i class="bi bi-speedometer"></i> Dashboard
+                    </a></li>
+                </ul>
+            </div>
+        </li>
 
-        </ul>
-    </div>
+        <!-- CERRAR SESIÓN -->
+        <li class="nav-item mt-4">
+            <form method="POST" action="{% url 'logout' %}" class="d-flex justify-content-center">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-75 d-flex align-items-center justify-content-center gap-2"
+                    style="font-weight: 600; border-radius: 12px;">
+                    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                </button>
+            </form>
+        </li>
+
+    </ul>
+</div>
+
+
+    
 
     <!-- BOTÓN HAMBURGUESA -->
     <button id="menuToggle" class="btn btn-outline-primary d-lg-none">

@@ -136,6 +136,7 @@ def formulario(request, id=None):
         form = BsfForm(request.POST, instance=instancia)
         if form.is_valid():
             form.save()
+            return redirect('/bodegabsf')
             mensaje = "✅ Producto guardado correctamente."
     else:
         form = BsfForm(instance=instancia)
@@ -160,6 +161,5 @@ def buscar_producto(request):
 
 
 
-
-# importar excel a data_base
+# usuario
 
